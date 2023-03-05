@@ -8,3 +8,5 @@ While some solutions stand to be more complex, privately, or subjectively clever
 # TODOs
 - tests and service definition
 - if you've been in blockchain for >1 year with prior web2 knowledge, this repo is possible to complete
+
+[influence](https://github.com/fluencelabs/fRPC-Substrate)
