@@ -1,0 +1,56 @@
+import "@fluencelabs/aqua-lib/builtin.aqua"
+
+-- [x] simple RPC --> saturn, ethers, web3 -> finding natural timelike harmony amongst rings, can become centralizing
+
+-- [/] simple rpc counter, with random provider, can be brittle
+
+--> can return to sol center via tara light step #A
+-- [ ] sort peer ttl into linear spectrum, as a moderately defined ttl
+
+-- via NFT, 
+--> [ ] #A motion to sun
+-- first do a quorum on blocknumber randomly spaced variable onion routed blockheights  
+-- then pass in top 2/3 provider, choose random based on space 
+
+--> [ ] #B motion to planet IX
+-- first do a quorum on blocknumber using round robin on workers 
+-- onion route to end worker the blockheights & provider urls
+-- then pass in top 2/3 provider, choose random based on space 
+
+data JSONRPCArgs:
+    signer: string
+
+service NoOp("NoOp"):
+    u64toi64(var: u64) -> i64
+
+service Counter("Counter"):
+    count() -> i64
+
+service Router("Router"):
+    register(peer_id: PeerId) -> bool
+    get_peers() -> []PeerId
+
+service EthRPC("EtherRPC"):
+    call_rpc(uri: string, method: string, params: JSONRPCArgs, peer_id: PeerId, liveliness: u64) -> bool
+
+func register(peer_id: PeerId) -> bool:
+    on peer_id:
+        res <- Router.register(%init_peer_id%)
+    <- res
+
+func call(relay_peer_id: PeerId, hub_peer_id: PeerId, provider_uris: []string, meowthedRPC: string, params: JSONRPCArgs) -> bool:
+    -- on central hub
+    on hub_peer_id:
+        peers <- Router.get_peers()
+        -- increment counter and get counter
+        count <- Counter.count()
+
+    on relay_peer_id:
+        ttl <- Peer.timestamp_ms()
+        provider_space_index <- NoOp.u64toi64(ttl)
+
+    -- call function on peer
+    on peers[count]:
+        liveliness <- Peer.timestamp_ms()
+        res <- EthRPC.call_rpc(provider_uris[provider_space_index], meowthedRPC, params, peers[count], liveliness)
+    <- res
