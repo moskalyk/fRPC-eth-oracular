@@ -19,7 +19,7 @@ import "@fluencelabs/aqua-lib/builtin.aqua"
 
 data JSONRPCArgs:
     signer: string
-
+    
 service NoOp("NoOp"):
     u64toi64(var: u64) -> i64
 

@@ -1,0 +1,39 @@
+import "@fluencelabs/aqua-lib/builtin.aqua"
+
+data WrapperParticle:
+    cipher: string
+    x: string
+    y: string
+    status: bool
+
+data OnionPeer:
+    peer_id: PeerId
+    x: string
+    y: string
+
+service Registry("registry"):
+    register(peer_id: PeerId, x: string, y: string) -> bool
+    get_users() -> []OnionPeer
+
+service Onion("onion"):
+    relay(w_p: WrapperParticle) -> WrapperParticle
+
+func registerPeer(peer_id: PeerId, x: string, y: string) -> bool:
+    on peer_id:
+        res <- Registry.register(%init_peer_id%, x, y)
+    <- res
+
+func relay(peer_id: PeerId, w_p: WrapperParticle) -> WrapperParticle:
+    on peer_id:
+        res <- Onion.relay(w_p)
+    <- res
+
+func getOnionPeers(peer_id: PeerId) -> []OnionPeer:
+    on peer_id:
+        res <- Registry.get_users()
+    <- res
+
+func getRelayTime(relay_id: PeerId) -> u64:
+    on relay_id:
+        res <- Peer.timestamp_ms()
+    <- res
