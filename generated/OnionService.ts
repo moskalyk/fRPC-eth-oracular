@@ -17,7 +17,7 @@ import {
 // Services
 
 export interface OnionDef {
-    relay: (w_p: { cipher: string; status: boolean; x: string; y: string; }, callParams: CallParams$$<'w_p'>) => { cipher: string; status: boolean; x: string; y: string; } | Promise<{ cipher: string; status: boolean; x: string; y: string; }>;
+    relay: (w_p: { cipher: string; peer_id: string; status: boolean; x: string; y: string; }, callParams: CallParams$$<'w_p'>) => boolean | Promise<boolean>;
 }
 export function registerOnion(service: OnionDef): void;
 export function registerOnion(serviceId: string, service: OnionDef): void;
@@ -42,14 +42,6 @@ export function registerOnion(...args: any) {
                             "tag" : "struct",
                             "name" : "WrapperParticle",
                             "fields" : {
-                                "cipher" : {
-                                    "tag" : "scalar",
-                                    "name" : "string"
-                                },
-                                "status" : {
-                                    "tag" : "scalar",
-                                    "name" : "bool"
-                                },
                                 "x" : {
                                     "tag" : "scalar",
                                     "name" : "string"
@@ -57,6 +49,18 @@ export function registerOnion(...args: any) {
                                 "y" : {
                                     "tag" : "scalar",
                                     "name" : "string"
+                                },
+                                "cipher" : {
+                                    "tag" : "scalar",
+                                    "name" : "string"
+                                },
+                                "peer_id" : {
+                                    "tag" : "scalar",
+                                    "name" : "string"
+                                },
+                                "status" : {
+                                    "tag" : "scalar",
+                                    "name" : "bool"
                                 }
                             }
                         }
@@ -66,26 +70,8 @@ export function registerOnion(...args: any) {
                     "tag" : "unlabeledProduct",
                     "items" : [
                         {
-                            "tag" : "struct",
-                            "name" : "WrapperParticle",
-                            "fields" : {
-                                "cipher" : {
-                                    "tag" : "scalar",
-                                    "name" : "string"
-                                },
-                                "status" : {
-                                    "tag" : "scalar",
-                                    "name" : "bool"
-                                },
-                                "x" : {
-                                    "tag" : "scalar",
-                                    "name" : "string"
-                                },
-                                "y" : {
-                                    "tag" : "scalar",
-                                    "name" : "string"
-                                }
-                            }
+                            "tag" : "scalar",
+                            "name" : "bool"
                         }
                     ]
                 }
@@ -184,20 +170,20 @@ export function registerRegistry(...args: any) {
 }
       
 // Functions
-export type RelayArgW_p = { cipher: string; status: boolean; x: string; y: string; } 
-export type RelayResult = { cipher: string; status: boolean; x: string; y: string; }
+export type RelayArgW_p = { cipher: string; peer_id: string; status: boolean; x: string; y: string; } 
+
 export function relay(
     peer_id: string,
     w_p: RelayArgW_p,
     config?: {ttl?: number}
-): Promise<RelayResult>;
+): Promise<boolean>;
 
 export function relay(
     peer: FluencePeer,
     peer_id: string,
     w_p: RelayArgW_p,
     config?: {ttl?: number}
-): Promise<RelayResult>;
+): Promise<boolean>;
 
 export function relay(...args: any) {
 
@@ -251,14 +237,6 @@ export function relay(...args: any) {
                     "tag" : "struct",
                     "name" : "WrapperParticle",
                     "fields" : {
-                        "cipher" : {
-                            "tag" : "scalar",
-                            "name" : "string"
-                        },
-                        "status" : {
-                            "tag" : "scalar",
-                            "name" : "bool"
-                        },
                         "x" : {
                             "tag" : "scalar",
                             "name" : "string"
@@ -266,6 +244,18 @@ export function relay(...args: any) {
                         "y" : {
                             "tag" : "scalar",
                             "name" : "string"
+                        },
+                        "cipher" : {
+                            "tag" : "scalar",
+                            "name" : "string"
+                        },
+                        "peer_id" : {
+                            "tag" : "scalar",
+                            "name" : "string"
+                        },
+                        "status" : {
+                            "tag" : "scalar",
+                            "name" : "bool"
                         }
                     }
                 }
@@ -275,26 +265,8 @@ export function relay(...args: any) {
             "tag" : "unlabeledProduct",
             "items" : [
                 {
-                    "tag" : "struct",
-                    "name" : "WrapperParticle",
-                    "fields" : {
-                        "cipher" : {
-                            "tag" : "scalar",
-                            "name" : "string"
-                        },
-                        "status" : {
-                            "tag" : "scalar",
-                            "name" : "bool"
-                        },
-                        "x" : {
-                            "tag" : "scalar",
-                            "name" : "string"
-                        },
-                        "y" : {
-                            "tag" : "scalar",
-                            "name" : "string"
-                        }
-                    }
+                    "tag" : "scalar",
+                    "name" : "bool"
                 }
             ]
         }

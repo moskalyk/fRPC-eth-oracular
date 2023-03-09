@@ -5,6 +5,7 @@ data WrapperParticle:
     x: string
     y: string
     status: bool
+    peer_id: PeerId
 
 data OnionPeer:
     peer_id: PeerId
@@ -16,14 +17,14 @@ service Registry("registry"):
     get_users() -> []OnionPeer
 
 service Onion("onion"):
-    relay(w_p: WrapperParticle) -> WrapperParticle
+    relay(w_p: WrapperParticle) -> bool
 
 func registerPeer(peer_id: PeerId, x: string, y: string) -> bool:
     on peer_id:
         res <- Registry.register(%init_peer_id%, x, y)
     <- res
 
-func relay(peer_id: PeerId, w_p: WrapperParticle) -> WrapperParticle:
+func relay(peer_id: PeerId, w_p: WrapperParticle) -> bool:
     on peer_id:
         res <- Onion.relay(w_p)
     <- res

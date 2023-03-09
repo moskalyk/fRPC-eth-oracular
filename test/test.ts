@@ -36,11 +36,25 @@ var Point = bitcore.crypto.Point;
     var ciphertext = alice.encrypt(message);
     console.log(ciphertext)
 
+    // encrypt a second time, with other peer
+    const pubkey2 = new PublicKey(new Point(res[1].x, res[1].y))
+    var alice2 = ECIES()
+        .privateKey(aliceKey)
+        .publicKey(pubkey2);
+
+    var ciphertext = alice2.encrypt(JSON.stringify({
+        cipher: message,
+        x: res[0].x,
+        y: res[0].y
+    }));
+
+    console.log(ciphertext)
+
     // get pub key x,y
     var deep = _.cloneDeep(aliceKey.publicKey);
     const pubkeyAlice = JSON.parse(JSON.stringify(deep))
 
-    const res2 = await relay(res[0].peer_id, { cipher: ciphertext.toString('hex'), x: pubkeyAlice.x, y: pubkeyAlice.y, status: false })
-    console.log(res2)
+    // const res2 = await relay(res[0].peer_id, { cipher: ciphertext.toString('hex'), x: pubkeyAlice.x, y: pubkeyAlice.y, status: false })
+    // console.log(res2)
 
-})('12D3KooWFEdSDR2WHm5R1LzBCkjFM8SJbTvVHoHscPQjisBSpztg') // hub peer id
+})('12D3KooWPPy2YW231ftVFW4cw9NcwWEgaTxSQdoowuEv8G84GhL5') // hub peer id

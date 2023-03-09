@@ -1,10 +1,12 @@
 {
-  "name": "fmrpc",
+  "name": "xyz",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "peerId": "xyz",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "onion_worker": "ts-node test/onion_worker.ts",
+    "simulate": "concurrently \"npm run onion_worker -peer_id $npm_package_name -pkey KxfxrUXSMjJQcb3JgnaaA6MqsrKQ1nBSxvhuigdKRyFiEm6BZDgG\" \"npm run onion_worker -peer_id $npm_package_name -pkey afb1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey cfb1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey cab1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey bab1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\""
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +20,10 @@
     "express": "^4.18.2",
     "json-rpc-2.0": "^1.5.1",
     "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
     "web3": "^1.8.2"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
   }
 }

@@ -1,3 +1,5 @@
+var argv = require('minimist')(process.argv.slice(2));
+const ir = require('./ir');
 import {Fluence} from '@fluencelabs/fluence'
 import { krasnodar } from '@fluencelabs/fluence-network-environment';
 import { registerOnion, registerPeer } from '../generated/OnionService'
@@ -9,6 +11,8 @@ var _ = require('lodash')
 var PrivateKey = bitcore.PrivateKey;
 var PublicKey = bitcore.PublicKey;
 var Point = bitcore.crypto.Point;
+
+console.log(argv);
 
 (async (PEER_ID: any) => {
 
@@ -39,29 +43,21 @@ var Point = bitcore.crypto.Point;
         // check if cipher contains an object with block number
         if(JSON.parse(message.toString())['rpc_params'] === 'undefined'){
             // call rpc
-            return {
-                cipher: message.toString(),
-                x: "",
-                y: "",
-                status: true
-            }
+            return true
         }else {
             // relay
             // const res = await relay(...)
-            return {
-                cipher: message.toString(),
-                x: "",
-                y: "",
-                status: false
-            }
+            return false
         }
     }})
 
+    console.log('connected ', ir(Fluence.getStatus().peerId))
     // register
-    var bobKey = new PrivateKey('KxfxrUXSMjJQcb3JgnaaA6MqsrKQ1nBSxvhuigdKRyFiEm6BZDgG');
-    console.log(bobKey.x)
+    var bobKey = new PrivateKey(argv.pkey);
+    // var bobKey = new PrivateKey('KxfxrUXSMjJQcb3JgnaaA6MqsrKQ1nBSxvhuigdKRyFiEm6BZDgG');
+
     var deep = _.cloneDeep(bobKey.publicKey);
     const pubkey = JSON.parse(JSON.stringify(deep))
 
     const res = await registerPeer(PEER_ID, pubkey.x, pubkey.y)
-})("12D3KooWFEdSDR2WHm5R1LzBCkjFM8SJbTvVHoHscPQjisBSpztg") // hub peer id
+})(argv.peer_id) // hub peer id
