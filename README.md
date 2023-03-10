@@ -41,3 +41,6 @@ Full Onion Circuit: 3.336s
 # TODOs
 - tests and service definition
 - if you've been in blockchain for >1 year with prior web2 knowledge, this repo is possible to complete
+
+[influence](https://github.com/fluencelabs/fRPC-Substrate)
+[art](https://codepen.io/moskalyk-the-lessful/pen/PodjXWe)
