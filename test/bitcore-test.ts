@@ -73,7 +73,6 @@ var Point = bitcore.crypto.Point;
     var decrypted = carol.decrypt(cipherBuffer)
     console.log('--- decrypted ---')
 
-    console.log(typeof JSON.parse(decrypted.toString()) == 'object')
     console.log(decrypted.toString() == message)
     console.log(decrypted.toString())
 
