@@ -5,6 +5,39 @@ To begin our journey at Earth being one anthroprogenically with people, and to p
 
 While some solutions stand to be more complex, privately, or subjectively clever via routing, this may yield a negative function limit to the manifested architecture prescribed via Oracle interpretations for compute expectation healing, or individual divine Rotator functions.
 
+## simple 1-hop onion benchmark: an ~8% increase on networking & total user time ~3s
+An initial test implementation of a 4 worker mix, that randomly chooses peers to send a mock rpc call request via a 1-hop ECIES-based onion relay. Can extend hops by wrapping particle multiple times.
+
+### test architecture with 4 onion relay workers
+```
+           worker
+             |
+             |
+worker -----hub----- worker
+             |
+             |
+           worker
+```
+
+### how to run
+```
+// terminal #1
+$ yarn hub:start
+// pass the outputted peerId into the package.json name variable 
+connected  12D3KooWSzWHkHU3iLXuTETsicaYPVyV6RewNMwUYDBTN6cspGUD
+
+// terminal #2: start 4 worker relay cluster
+$ yarn worker:simulate
+
+// terminal #3: run tests
+$ yarn user:test
+```
+
+### benchmark
+Simple Aqua Call: 893.858ms
+1-Hop Onion: 920.152ms
+Full Onion Circuit: 3.336s
+
 # TODOs
 - tests and service definition
 - if you've been in blockchain for >1 year with prior web2 knowledge, this repo is possible to complete

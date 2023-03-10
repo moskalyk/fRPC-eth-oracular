@@ -18,6 +18,7 @@ service Registry("registry"):
 
 service Onion("onion"):
     relay(w_p: WrapperParticle) -> bool
+    bench() -> bool
 
 func registerPeer(peer_id: PeerId, x: string, y: string) -> bool:
     on peer_id:
@@ -37,4 +38,9 @@ func getOnionPeers(peer_id: PeerId) -> []OnionPeer:
 func getRelayTime(relay_id: PeerId) -> u64:
     on relay_id:
         res <- Peer.timestamp_ms()
+    <- res
+
+func benchTest(peer_id: PeerId) -> bool:
+    on peer_id:
+        res <- Onion.bench()
     <- res

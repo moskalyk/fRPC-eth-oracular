@@ -17,6 +17,7 @@ import {
 // Services
 
 export interface OnionDef {
+    bench: (callParams: CallParams$$<null>) => boolean | Promise<boolean>;
     relay: (w_p: { cipher: string; peer_id: string; status: boolean; x: string; y: string; }, callParams: CallParams$$<'w_p'>) => boolean | Promise<boolean>;
 }
 export function registerOnion(service: OnionDef): void;
@@ -33,6 +34,21 @@ export function registerOnion(...args: any) {
     "functions" : {
         "tag" : "labeledProduct",
         "fields" : {
+            "bench" : {
+                "tag" : "arrow",
+                "domain" : {
+                    "tag" : "nil"
+                },
+                "codomain" : {
+                    "tag" : "unlabeledProduct",
+                    "items" : [
+                        {
+                            "tag" : "scalar",
+                            "name" : "bool"
+                        }
+                    ]
+                }
+            },
             "relay" : {
                 "tag" : "arrow",
                 "domain" : {
@@ -258,6 +274,90 @@ export function relay(...args: any) {
                             "name" : "bool"
                         }
                     }
+                }
+            }
+        },
+        "codomain" : {
+            "tag" : "unlabeledProduct",
+            "items" : [
+                {
+                    "tag" : "scalar",
+                    "name" : "bool"
+                }
+            ]
+        }
+    },
+    "names" : {
+        "relay" : "-relay-",
+        "getDataSrv" : "getDataSrv",
+        "callbackSrv" : "callbackSrv",
+        "responseSrv" : "callbackSrv",
+        "responseFnName" : "response",
+        "errorHandlingSrv" : "errorHandlingSrv",
+        "errorFnName" : "error"
+    }
+},
+        script
+    )
+}
+
+ 
+
+export function benchTest(
+    peer_id: string,
+    config?: {ttl?: number}
+): Promise<boolean>;
+
+export function benchTest(
+    peer: FluencePeer,
+    peer_id: string,
+    config?: {ttl?: number}
+): Promise<boolean>;
+
+export function benchTest(...args: any) {
+
+    let script = `
+                    (xor
+                     (seq
+                      (seq
+                       (seq
+                        (seq
+                         (call %init_peer_id% ("getDataSrv" "-relay-") [] -relay-)
+                         (call %init_peer_id% ("getDataSrv" "peer_id") [] peer_id)
+                        )
+                        (call -relay- ("op" "noop") [])
+                       )
+                       (xor
+                        (seq
+                         (call peer_id ("onion" "bench") [] res)
+                         (call -relay- ("op" "noop") [])
+                        )
+                        (seq
+                         (call -relay- ("op" "noop") [])
+                         (call %init_peer_id% ("errorHandlingSrv" "error") [%last_error% 1])
+                        )
+                       )
+                      )
+                      (xor
+                       (call %init_peer_id% ("callbackSrv" "response") [res])
+                       (call %init_peer_id% ("errorHandlingSrv" "error") [%last_error% 2])
+                      )
+                     )
+                     (call %init_peer_id% ("errorHandlingSrv" "error") [%last_error% 3])
+                    )
+    `
+    return callFunction$$(
+        args,
+        {
+    "functionName" : "benchTest",
+    "arrow" : {
+        "tag" : "arrow",
+        "domain" : {
+            "tag" : "labeledProduct",
+            "fields" : {
+                "peer_id" : {
+                    "tag" : "scalar",
+                    "name" : "string"
                 }
             }
         },

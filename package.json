@@ -1,12 +1,14 @@
 {
-  "name": "xyz",
+  "name": "12D3KooWSzWHkHU3iLXuTETsicaYPVyV6RewNMwUYDBTN6cspGUD",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "peerId": "xyz",
   "scripts": {
+    "hub:start": "ts-node test/hub.ts",
+    "user:test": "ts-node test/test.ts",
     "onion_worker": "ts-node test/onion_worker.ts",
-    "simulate": "concurrently \"npm run onion_worker -peer_id $npm_package_name -pkey KxfxrUXSMjJQcb3JgnaaA6MqsrKQ1nBSxvhuigdKRyFiEm6BZDgG\" \"npm run onion_worker -peer_id $npm_package_name -pkey afb1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey cfb1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey cab1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey bab1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\""
+    "worker:simulate": "concurrently \"npm run onion_worker -peer_id $npm_package_name -pkey KxfxrUXSMjJQcb3JgnaaA6MqsrKQ1nBSxvhuigdKRyFiEm6BZDgG\" \"npm run onion_worker -peer_id $npm_package_name -pkey afb1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey cfb1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey cab1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\" \"npm run onion_worker -peer_id $npm_package_name -pkey bab1a73ec390ca54d5ceb19f6f085c9ee97f27244a27c15aa4abbf4eba4cc6a8\""
   },
   "author": "",
   "license": "ISC",
