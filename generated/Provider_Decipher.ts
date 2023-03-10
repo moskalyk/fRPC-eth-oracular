@@ -143,7 +143,7 @@ export function registerCounter(...args: any) {
     registerService$$(
         args,
         {
-    "defaultServiceId" : "counter",
+    "defaultServiceId" : "Counter",
     "functions" : {
         "tag" : "labeledProduct",
         "fields" : {
@@ -369,7 +369,7 @@ export function call(...args: any) {
                          (xor
                           (seq
                            (call hub_peer_id ("Router" "get_peers") [] peers)
-                           (call hub_peer_id ("counter" "count") [] count)
+                           (call hub_peer_id ("Counter" "count") [] count)
                           )
                           (seq
                            (seq
