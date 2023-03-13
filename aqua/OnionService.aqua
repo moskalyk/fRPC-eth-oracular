@@ -40,6 +40,13 @@ func getRelayTime(relay_id: PeerId) -> u64:
         res <- Peer.timestamp_ms()
     <- res
 
+func getRelayTimes(relay_ids: []PeerId) -> []u64:
+    static: *u64
+    for relay_id <- relay_ids:
+        on relay_id:
+            static <<- Peer.timestamp_ms()
+    <- static
+
 func benchTest(peer_id: PeerId) -> bool:
     on peer_id:
         res <- Onion.bench()
