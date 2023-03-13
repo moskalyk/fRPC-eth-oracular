@@ -19,6 +19,9 @@ worker -----hub----- worker
            worker
 ```
 
+### sequence diagram
+![onion](Onion_Network.png)
+
 ### how to run
 ```
 // terminal #1
