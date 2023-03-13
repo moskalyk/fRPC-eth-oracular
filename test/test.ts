@@ -1,7 +1,7 @@
 var argv = require('minimist')(process.argv.slice(2));
 import { Fluence } from '@fluencelabs/fluence';
 import { krasnodar } from '@fluencelabs/fluence-network-environment';
-import { getOnionPeers, getRelayTime, relay, benchTest } from '../generated/OnionService'
+import { getOnionPeers, getRelayTime, getRelayTimes, relay, benchTest } from '../generated/OnionService'
 
 var ECIES = require('../lib/bitcore-ecies-index.js');
 var bitcore = require('bitcore-lib');
@@ -24,11 +24,25 @@ var Point = bitcore.crypto.Point;
     console.log(res)
 
     // get randomness from space
-    const res1 = await getRelayTime(krasnodar[0].peerId)
-    console.log(res1)
+    const resBunch = await getRelayTimes(
+        [
+            krasnodar[0].peerId,
+            krasnodar[1].peerId,
+            krasnodar[2].peerId,
+            krasnodar[3].peerId,
+            krasnodar[4].peerId,
+            krasnodar[5].peerId,
+            krasnodar[6].peerId,
+            krasnodar[7].peerId
+        ]
+    )
+    console.log(resBunch)
 
-    const res4 = await getRelayTime(krasnodar[0].peerId)
+    const res1 = resBunch[resBunch[4] % resBunch.length]
+    const res4 = resBunch[resBunch[7] % resBunch.length]
+    console.log(res1)
     console.log(res4)
+
 
     // encrypt with other peer
     const pubkey = new PublicKey(new Point(res[res1 % res.length].x, res[res1 % res.length].y))
